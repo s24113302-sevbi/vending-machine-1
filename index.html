@@ -13,7 +13,6 @@
             color: white;
             text-align: center;
             overflow: hidden;
-            animation: bgAnimation 10s infinite alternate;
         }
 
         h1 {
@@ -21,18 +20,19 @@
             font-size: 3em;
             letter-spacing: 1.5px;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            animation: bounceIn 2s ease-out;
         }
 
         .vending-machine {
             background-color: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
-            width: 80%;
+            width: 90%;
             max-width: 600px;
             margin: 40px auto;
             padding: 30px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            animation: slideIn 1s ease-out;
+            max-height: 80vh;
+            overflow-y: auto; /* Make the vending machine scrollable */
+            position: relative;
         }
 
         .juice-button {
@@ -44,23 +44,21 @@
             color: #008080;
             border: none;
             border-radius: 10px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s, background-color 0.3s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            animation: buttonEffect 1s ease-in-out infinite alternate;
         }
 
         .juice-button:hover {
             background-color: #FFC107;
-            transform: scale(1.05) rotate(5deg);
+            transform: scale(1.05);
         }
 
         .juice-icon {
             font-size: 2.5em;
             margin-right: 10px;
-            animation: iconBounce 0.6s ease-in-out infinite alternate;
         }
 
         .display {
@@ -70,7 +68,6 @@
             border-radius: 10px;
             font-size: 1.3em;
             min-height: 50px;
-            animation: fadeIn 1s ease-out;
         }
 
         footer {
@@ -78,57 +75,76 @@
             padding: 15px;
             background-color: rgba(0, 0, 0, 0.25);
             font-size: 1.1em;
-            animation: fadeIn 1.5s ease-out;
         }
 
         .highlight {
             color: #ADD8E6;
         }
 
-        /* Price styling */
         .price {
             font-size: 1.1em;
             color: #ADD8E6;
             margin-left: 10px;
         }
 
-        /* Animation keyframes */
-        @keyframes bgAnimation {
-            0% {
-                background-color: #008080;
+        /* Coin input section */
+        .insert-coins {
+            margin-top: 20px;
+            background-color: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .coin-input {
+            font-size: 1.1em;
+            padding: 10px;
+            margin: 10px 0;
+            width: 150px;
+        }
+
+        .coin-btn {
+            padding: 10px 20px;
+            background-color: #FFD700;
+            border: none;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .coin-btn:hover {
+            background-color: #FFC107;
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 2em;
             }
-            50% {
-                background-color: #004d4d;
+
+            .vending-machine {
+                width: 95%;
+                padding: 20px;
+                margin-top: 20px;
             }
-            100% {
-                background-color: #008080;
+
+            .juice-button {
+                width: 180px;
+                font-size: 1em;
+                padding: 12px;
             }
-        }
 
-        @keyframes bounceIn {
-            0% { transform: translateY(-30px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
+            .coin-input {
+                width: 100%;
+            }
 
-        @keyframes slideIn {
-            0% { transform: translateX(-100%); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
+            .display {
+                font-size: 1.1em;
+            }
 
-        @keyframes buttonEffect {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(5deg); }
-        }
-
-        @keyframes iconBounce {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            footer {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -139,41 +155,65 @@
     <div class="vending-machine">
         <p>Choose your favorite juice and see the freshness!</p>
 
-        <!-- Apple Juice button with price -->
+        <!-- Coin Insertion -->
+        <div class="insert-coins">
+            <p>Insert Coins (NT$):</p>
+            <input type="number" id="coinInput" class="coin-input" placeholder="Enter amount" min="1">
+            <button class="coin-btn" onclick="insertCoins()">Insert</button>
+            <p id="balanceDisplay">Current Balance: NT$ 0</p>
+        </div>
+
+        <p>Choose your juice:</p>
+
+        <!-- Juice Buttons -->
         <button class="juice-button" onclick="selectJuice('🍎 Apple Juice', 10)">
             <span class="juice-icon">🍎</span>Apple Juice<span class="price">NT$ 10</span>
         </button>
-
-        <!-- Orange Juice button with price -->
         <button class="juice-button" onclick="selectJuice('🍊 Orange Juice', 10)">
             <span class="juice-icon">🍊</span>Orange Juice<span class="price">NT$ 10</span>
         </button><br>
-
-        <!-- Strawberry Juice button with price -->
         <button class="juice-button" onclick="selectJuice('🍓 Strawberry Juice', 15)">
             <span class="juice-icon">🍓</span>Strawberry Juice<span class="price">NT$ 15</span>
         </button>
-
-        <!-- Pineapple Juice button with price -->
         <button class="juice-button" onclick="selectJuice('🍍 Pineapple Juice', 10)">
             <span class="juice-icon">🍍</span>Pineapple Juice<span class="price">NT$ 10</span>
         </button><br>
-
-        <!-- Grape Juice button with price -->
         <button class="juice-button" onclick="selectJuice('🍇 Grape Juice', 15)">
             <span class="juice-icon">🍇</span>Grape Juice<span class="price">NT$ 15</span>
-        </button>
+        </button><br>
 
         <div class="display" id="display">Make your selection!</div>
     </div>
 
     <footer>
-        <p>Created with real juice <span class="highlight">&</span> freshness.</p>
+        <p>Created with real juice <span class="highlight">&amp;</span> freshness.</p>
     </footer>
 
     <script>
+        let currentBalance = 0;
+
+        function insertCoins() {
+            const coinInput = document.getElementById('coinInput').value;
+            const balanceDisplay = document.getElementById('balanceDisplay');
+
+            if (coinInput && coinInput > 0) {
+                currentBalance += parseFloat(coinInput);
+                balanceDisplay.innerText = `Current Balance: NT$ ${currentBalance}`;
+                document.getElementById('coinInput').value = ''; // Reset input field
+            } else {
+                alert('Please enter a valid amount!');
+            }
+        }
+
         function selectJuice(juice, price) {
-            document.getElementById('display').innerText = `You selected ${juice} for NT$ ${price}! Enjoy your drink 🥤`;
+            if (currentBalance >= price) {
+                const change = currentBalance - price;
+                currentBalance = 0; // Reset balance after purchase
+                document.getElementById('display').innerText = `You selected ${juice} for NT$ ${price}. Your change is NT$ ${change}! Enjoy your drink 🥤`;
+                document.getElementById('balanceDisplay').innerText = `Current Balance: NT$ 0`;
+            } else {
+                document.getElementById('display').innerText = `Insufficient funds! Please insert more coins.`;
+            }
         }
     </script>
 
